@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Board {
+  id       Int      @id @default(autoincrement())
+  name     String
+  disabled Boolean? @default(false)
+  Status   Status[]
+}
+
+model Status {
+  id       Int      @id @default(autoincrement())
+  name     String   @unique
+  disabled Boolean? @default(false)
+  boardId  Int?
+  Board    Board?   @relation(fields: [boardId], references: [id])
+  Task     Task[]
+}
+
+model Task {
+  id       Int      @id @default(autoincrement())
+  name     String
+  done     Boolean  @default(false)
+  userId   Int?
+  disabled Boolean? @default(false)
+  statusId Int      @default(1)
+  Status   Status   @relation(fields: [statusId], references: [id])
+  User     User?    @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  name     String
+  disabled Boolean? @default(false)
+  password String   @default("")
+  Task     Task[]
+}
