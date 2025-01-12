@@ -1,49 +1,47 @@
 import { CreateUserDtoType } from "../../../modules/users/dto/create-user-dto";
 import { prisma } from "../../database/prisma-client";
+import { BaseRepository } from "../interfaces/base-repository";
 
-const getAllUsers = () => {
-  return prisma.user.findMany({
-    select: {
-      id: true,
-      name: true,
-      email: true,
-    },
-  });
-};
+export class UserRepository implements BaseRepository {
 
-const getUserById = (id: number) => {
-  return prisma.user.findUnique({
-    where: {
-      id,
-      disabled: false,
-    },
-  });
-};
+  
+  create(createUserDto: CreateUserDtoType) {
+    return prisma.user.create({
+      data: createUserDto,
+    });
+  }
 
-const getUserByEmail = (email: string) => {
-  return prisma.user.findUnique({
-    where: {
-      email,
-      disabled: false,
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      password: true,
-    },
-  });
-};
+  findById(id: number) {
+    return prisma.user.findUnique({
+      where: {
+        id,
+        disabled: false,
+      },
+    });
+  }
 
-const createUser = (createUserDto: CreateUserDtoType) => {
-  return prisma.user.create({
-    data: createUserDto,
-  });
-};
+  findAll() {
+    return prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+  }
 
-export const UserRepository = {
-  getAllUsers,
-  getUserById,
-  getUserByEmail,
-  createUser,
-};
+  getUserByEmail(email: string) {
+    return prisma.user.findUnique({
+      where: {
+        email,
+        disabled: false,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+      },
+    });
+  }
+}

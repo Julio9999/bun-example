@@ -1,36 +1,43 @@
-import { CreateUserDtoType } from "./dto/create-user-dto"
-import { UserRepository } from '../../infraestructure/repositories/user/user-repository';
+import { CreateUserDtoType } from "./dto/create-user-dto";
 import { HTTPException } from "hono/http-exception";
-import { hasPassword } from '../../utils/hash-password';
+import { hasPassword } from "../../utils/hash-password";
+import { UserRepository } from "../../infraestructure/repositories/user/user-repository";
 
-const createUser = async(createUserDtoType: CreateUserDtoType) => {
+export class UsersService {
+  private readonly userRepository: UserRepository;
+
+  constructor() {
+    this.userRepository = new UserRepository();
+  }
+
+  static getInstance(){
+    return new UsersService;
+  }
+
+  async create(createUserDtoType: CreateUserDtoType) {
     const { password, email, name } = createUserDtoType;
-    
-    const hashedPassword = await hasPassword(password)
 
-    const userToCreate:CreateUserDtoType = {
-        email,
-        name,
-        password: hashedPassword
-    }
+    const hashedPassword = await hasPassword(password);
 
-    const res = await UserRepository.createUser(userToCreate);
+    const userToCreate: CreateUserDtoType = {
+      email,
+      name,
+      password: hashedPassword,
+    };
+
+    const res = await this.userRepository.create(userToCreate);
     return res;
-}
+  }
 
-const getAllUsers = async() => {
-    const res = await UserRepository.getAllUsers();
+  async findAll() {
+    const res = await this.userRepository.findAll();
     return res;
-}
+  }
 
-const getUserById = async(id: number) => {
-    const res = await UserRepository.getUserById(id);
-    if(!res) throw new HTTPException(404, {message: "Usuario no encontrado"})
+  async findById(id: number) {
+    const res = await this.userRepository.findById(id);
+    if (!res)
+      throw new HTTPException(404, { message: "Usuario no encontrado" });
     return res;
-}
-
-export const UsersService = {
-    createUser,
-    getAllUsers,
-    getUserById
+  }
 }

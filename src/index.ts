@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
-import { users } from './modules/users/users-controller'
 import { errorHandler } from './middleware/error-handler'
-import { authRoutes } from './modules/auth/auth-controller'
 import { authMiddleware } from './middleware/auth'
+import { users } from './modules/users/users-routes'
+import { authRoutes } from './modules/auth/auth-routes'
 
 const app = new Hono()
 
