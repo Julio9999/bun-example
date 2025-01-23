@@ -1,19 +1,21 @@
 {
   "name": "my-app",
   "scripts": {
-    "dev": "bun run --hot src/index.ts",
+    "dev": "bunx tsc --noEmit --watch && bun run --hot src/index.ts",
     "build": "bunx tsc",
-    "start": "bun run dist/index.js"
+    "start": "bun run dist/index.js",
+    "seed": "bun src/infraestructure/database/seed.ts",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
     "hono": "^4.6.16",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "prisma": "^6.2.1"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "prisma": "^6.2.1"
+    "@types/bun": "latest"
   }
 }

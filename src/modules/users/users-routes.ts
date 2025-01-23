@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { UsersService } from "./users-service";
-import { validate } from "../../middleware/validation";
 import { CreateUserDto, CreateUserDtoType } from "./dto/create-user-dto";
+import { validate } from '../../middleware/validation';
 
 const usersService = UsersService.getInstance();
 

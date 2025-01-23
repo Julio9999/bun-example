@@ -1,25 +1,31 @@
-# Usar una imagen más ligera con Alpine
+# Etapa base: Usar la imagen oficial de Bun
 FROM oven/bun:1-alpine AS base
 WORKDIR /usr/src/app
 
-# Instalar dependencias solo para producción
+# Etapa de instalación: Instalar dependencias
 FROM base AS install
 COPY package.json bun.lockb ./
-RUN bun install --frozen-lockfile --production
+RUN bun install --frozen-lockfile  # Instalar dependencias
 
-# Etapa de construcción: Copiar el código y compilar TypeScript
+# Etapa de construcción: Generar el cliente de Prisma
 FROM base AS build
 COPY --from=install /usr/src/app/node_modules ./node_modules
-COPY . . 
-RUN bunx tsc
+COPY . .
+RUN bunx prisma generate  # Generar el cliente de Prisma
 
-# Etapa de producción: Solo copiar lo necesario
+# Etapa de producción: Crear la imagen final optimizada
 FROM oven/bun:1-alpine AS production
 WORKDIR /usr/src/app
 
-# Copiar dependencias y archivos compilados
+# Copiar solo lo necesario para producción
 COPY --from=install /usr/src/app/node_modules ./node_modules
-COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/prisma ./prisma  
+COPY --from=build /usr/src/app/node_modules/.prisma ./node_modules/.prisma  
+COPY --from=build /usr/src/app/src ./src 
+COPY package.json bun.lockb ./
 
-# Ejecutar la aplicación
-ENTRYPOINT ["bun", "dist/index.js"]
+# Exponer el puerto de la aplicación
+EXPOSE 3000
+
+# Comando para iniciar la aplicación
+CMD ["bun", "run", "src/index.ts"]

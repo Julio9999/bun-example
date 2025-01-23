@@ -8,10 +8,20 @@
     "jsxImportSource": "hono/jsx",
     "outDir": "dist",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@infraestructure/*": ["src/infraestructure/*"],
+    //   "@utils/*": ["src/utils/*"],
+    //   "@entities/*": ["src/entities/*"],
+    //   "@constants/*": ["src/constants/*"],
+    //   "@interfaces/*": ["src/interfaces/*"],
+    //   "@middleware/*": ["src/middleware/*"],
+    //   "@modules/*": ["src/modules/*"]
+    // }
   },
   "include": [
     "src/**/*",
-    "infrastructure/database/**/*"  // Asegúrate de incluir esta carpeta
+    "infrastructure/database/**/*"
   ]
 }

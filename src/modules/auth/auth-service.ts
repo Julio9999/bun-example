@@ -1,11 +1,13 @@
 import { HTTPException } from "hono/http-exception";
 import { sign } from "hono/jwt";
-import { UserRepository } from "../../infraestructure/repositories/user/user-repository";
-import { LoginDtoType } from "./dto/login-dto";
-import { comparePassword } from "../../utils/hash-password";
-import { UserPayload } from "../../interfaces/user/user";
 import { JWTPayload } from "hono/utils/jwt/types";
+
+import { LoginDtoType } from "./dto/login-dto";
+import { UserRepository } from "../../infraestructure/repositories/user/user-repository";
+import { comparePassword } from "../../utils/hash-password";
+import { UserPayload } from "../../interfaces/auth/user";
 import { secret } from "../../constants/secret";
+
 
 export class AuthService {
   private readonly userRepository: UserRepository;

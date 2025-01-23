@@ -1,8 +1,10 @@
 import { Hono } from "hono";
-import { validate } from "../../middleware/validation";
+import { deleteCookie, setCookie } from "hono/cookie";
+
+
 import { AuthService } from "./auth-service";
 import { LoginDto, LoginDtoType } from "./dto/login-dto";
-import { deleteCookie, setCookie } from "hono/cookie";
+import { validate } from "../../middleware/validation";
 
 const authService = AuthService.getInstance();
 

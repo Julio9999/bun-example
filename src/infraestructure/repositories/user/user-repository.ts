@@ -1,18 +1,19 @@
-import { CreateUserDtoType } from "../../../modules/users/dto/create-user-dto";
-import { prisma } from "../../database/prisma-client";
+import { User } from "../../../entities/user/user.entity";
+import { dbClient } from "../../database/db-client";
 import { BaseRepository } from "../interfaces/base-repository";
+
 
 export class UserRepository implements BaseRepository {
 
   
-  create(createUserDto: CreateUserDtoType) {
-    return prisma.user.create({
-      data: createUserDto,
+  create(data: User) {
+    return dbClient.user.create({
+      data,
     });
   }
 
   findById(id: number) {
-    return prisma.user.findUnique({
+    return dbClient.user.findUnique({
       where: {
         id,
         disabled: false,
@@ -21,7 +22,7 @@ export class UserRepository implements BaseRepository {
   }
 
   findAll() {
-    return prisma.user.findMany({
+    return dbClient.user.findMany({
       select: {
         id: true,
         name: true,
@@ -31,7 +32,7 @@ export class UserRepository implements BaseRepository {
   }
 
   getUserByEmail(email: string) {
-    return prisma.user.findUnique({
+    return dbClient.user.findUnique({
       where: {
         email,
         disabled: false,

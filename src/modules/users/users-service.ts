@@ -1,7 +1,10 @@
+import { User } from "../../entities/user/user.entity";
+import { UserRepository } from "../../infraestructure/repositories/user/user-repository";
+import { hasPassword } from "../../utils/hash-password";
 import { CreateUserDtoType } from "./dto/create-user-dto";
 import { HTTPException } from "hono/http-exception";
-import { hasPassword } from "../../utils/hash-password";
-import { UserRepository } from "../../infraestructure/repositories/user/user-repository";
+
+
 
 export class UsersService {
   private readonly userRepository: UserRepository;
@@ -19,10 +22,12 @@ export class UsersService {
 
     const hashedPassword = await hasPassword(password);
 
-    const userToCreate: CreateUserDtoType = {
+    const userToCreate: User = {
       email,
       name,
       password: hashedPassword,
+      disabled: false,
+      id: 0
     };
 
     const res = await this.userRepository.create(userToCreate);

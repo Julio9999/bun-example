@@ -1,6 +1,7 @@
-import { ZodSchema } from "zod";
 import { MiddlewareHandler } from "hono";
 import { HTTPException } from "hono/http-exception";
+
+import { ZodSchema } from "zod";
 
 export const validate = (schema: ZodSchema): MiddlewareHandler => {
   return async (c, next) => {
