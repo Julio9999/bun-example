@@ -25,4 +25,10 @@ export class BoardService {
         if(!res) throw new HTTPException(404, {message: "Tablero no encontrado"})
         return res;
     }
+
+    create = async(board: Board) => {
+        const res = await this.boardsRepository.create(board);
+
+        return res;
+    }
 }

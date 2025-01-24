@@ -6,11 +6,14 @@ import { users } from './modules/users/users-routes';
 import { authRoutes } from './modules/auth/auth-routes';
 import { boardRoutes } from './modules/boards/boards-routes';
 import { errorHandler } from './middleware/error-handler';
+import { validateJsonMiddleware } from './middleware/validate-json-middleware';
 
 
 const app = new Hono()
 
 app.use('*', authMiddleware);
+
+app.use('*', validateJsonMiddleware);
 
 const { upgradeWebSocket, websocket } =
   createBunWebSocket<ServerWebSocket>()
@@ -29,13 +32,6 @@ app.get(
       },
     }
   })
-)
-
-app.get(
-  '/',
-  (c) => {
-    return c.text(`Hello`)
-  }
 )
 
 app.route('/users',users)

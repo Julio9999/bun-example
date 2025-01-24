@@ -43,7 +43,7 @@ export class AuthService {
       name,
       email,
       id,
-      exp: Math.floor(Date.now() / 1000) + 60 * 1,
+      exp: Math.floor(Date.now() / 1000) + 60 * 5,
     };
     const token = await sign(payload, secret);
     return token;

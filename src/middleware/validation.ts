@@ -10,6 +10,7 @@ export const validate = (schema: ZodSchema): MiddlewareHandler => {
       schema.parse(data);
       await next();
     } catch (error: any) {
+      console.log(error)
       const details = error.errors[0];
       const errorMessage = `Validation error at path: ${details.path.join(
         "."
