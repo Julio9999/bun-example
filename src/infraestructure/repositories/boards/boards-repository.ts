@@ -3,18 +3,21 @@ import { dbClient } from "../../database/db-client";
 import { BaseRepository } from "../interfaces/base-repository";
 
 export class BoardsRepository implements BaseRepository {
+  create(data: Board) {
+    return dbClient`
+      INSERT INTO Board (name)
+      VALUES (${data.name})
+      RETURNING *
+    `;
+  }
 
-    create(data: Board) {
-        return dbClient.board.create({
-            data
-        })
-    }
+  findById(id: number): Promise<Board | null> {
+    return dbClient`
+     SELECT * FROM Board WHERE id = ${id}`;
+  }
 
-    findById(id: number): Promise<Board | null> {
-        return dbClient.board.findUnique({where: {id}})
-    }
-
-    findAll(): Promise<Board[]> {
-        return dbClient.board.findMany()
-    }
+  async findAll(): Promise<Board[]> {
+    const boards: Board[] = await dbClient`SELECT * FROM "Board"`;
+    return boards;
+  }
 }

@@ -7,42 +7,31 @@ export class UserRepository implements BaseRepository {
 
   
   create(data: User) {
-    return dbClient.user.create({
-      data,
-    });
+    return dbClient`
+      INSERT INTO "User" (email, name, password)
+      VALUES (${data.email, data.name, data.password})
+      RETURNING *
+    `;
   }
 
-  findById(id: number) {
-    return dbClient.user.findUnique({
-      where: {
-        id,
-        disabled: false,
-      },
-    });
+  async findById(id: number) {
+    const [user] = await dbClient`
+      SELECT * FROM "User" WHERE id=${id}
+    `;
+    return user;
   }
 
   findAll() {
-    return dbClient.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-      },
-    });
+    return dbClient`
+      SELECT id, name, email FROM User 
+    `
   }
 
-  getUserByEmail(email: string) {
-    return dbClient.user.findUnique({
-      where: {
-        email,
-        disabled: false,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        password: true,
-      },
-    });
+  async getUserByEmail(email: string) {
+    const [user] = await dbClient`
+      SELECT id, name, email, password FROM "User"
+      WHERE email=${email} AND disabled=${false};
+    `
+    return user as User;
   }
 }

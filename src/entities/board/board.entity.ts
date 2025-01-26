@@ -1,3 +1,3 @@
-import { Board } from '@prisma/client';
+// import { Board } from '@prisma/client';
 
 export type { Board };

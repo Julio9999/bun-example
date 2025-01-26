@@ -12,6 +12,7 @@ model Board {
   name     String
   disabled Boolean? @default(false)
   Status   Status[]
+  User     User[]
 }
 
 model Status {
@@ -41,4 +42,6 @@ model User {
   disabled Boolean? @default(false)
   password String   @default("")
   Task     Task[]
+  Board    Board?   @relation(fields: [boardId], references: [id])
+  boardId  Int?
 }
