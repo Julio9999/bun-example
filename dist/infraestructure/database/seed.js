@@ -1,24 +1,34 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-async function main() {
+import { dbClient } from "./db-client";
+// Función principal para el seed
+async function seedDatabase() {
     const defaultStates = [
-        { name: 'Sin Empezar', disabled: false },
-        { name: 'En Curso', disabled: false },
-        { name: 'Finalizado', disabled: false },
+        { name: "Sin Empezar", disabled: false },
+        { name: "En Curso", disabled: false },
+        { name: "Finalizado", disabled: false },
     ];
-    for (const state of defaultStates) {
-        await prisma.status.upsert({
-            where: { name: state.name },
-            update: {},
-            create: state,
-        });
+    // Crear valores dinámicamente
+    const values = defaultStates
+        .map((state) => `('${state.name}', ${state.disabled})`)
+        .join(", ");
+    try {
+        const result = await dbClient `
+    INSERT INTO status (name, disabled)
+    VALUES ${values}
+    ON CONFLICT (name)
+    DO NOTHING
+    RETURNING *;
+  `;
+        console.log("Estados insertados:", result);
     }
-    console.log('Default states have been seeded!');
+    catch (error) {
+        console.error("Error al insertar los estados:", error);
+    }
 }
-main()
-    .then(() => prisma.$disconnect())
-    .catch((e) => {
-    console.error(e);
-    prisma.$disconnect();
+// Ejecución del seed
+seedDatabase()
+    .then(() => dbClient.close())
+    .catch((err) => {
+    console.error("Error al hacer el seed:", err);
+    dbClient.close();
     process.exit(1);
 });

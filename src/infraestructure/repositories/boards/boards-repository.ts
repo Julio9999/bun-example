@@ -5,7 +5,7 @@ import { BaseRepository } from "../interfaces/base-repository";
 export class BoardsRepository implements BaseRepository {
   create(data: Board) {
     return dbClient`
-      INSERT INTO Board (name)
+      INSERT INTO "Board" (name)
       VALUES (${data.name})
       RETURNING *
     `;
@@ -13,7 +13,7 @@ export class BoardsRepository implements BaseRepository {
 
   findById(id: number): Promise<Board | null> {
     return dbClient`
-     SELECT * FROM Board WHERE id = ${id}`;
+     SELECT * FROM "Board" WHERE id=${id}`;
   }
 
   async findAll(): Promise<Board[]> {

@@ -8,12 +8,12 @@ export class StatusRepository implements BaseRepository{
         throw new Error("Method not implemented.");
     }
     async findById(id: number): Promise<Status | null> {
-        const [status] = await dbClient`SELECT * FROM Status WHERE id=${id}`
+        const [status] = await dbClient`SELECT * FROM "Status" WHERE id=${id}`
         return status;
     }
 
     async findAll(): Promise<Status[]> {
-        const statuses = await dbClient`SELECT * FROM Status`
+        const statuses = await dbClient`SELECT * FROM "Status"`
         return statuses
     }
 

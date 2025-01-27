@@ -1,3 +1,6 @@
-// import { User } from "@prisma/client";
-
-export { User };
+export interface User {
+  id?: number;
+  email: string,
+  name: string,
+  password: string,
+}

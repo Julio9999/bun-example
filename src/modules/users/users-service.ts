@@ -26,9 +26,6 @@ export class UsersService {
       email,
       name,
       password: hashedPassword,
-      disabled: false,
-      id: 0,
-      boardId: 0
     };
 
     const res = await this.userRepository.create(userToCreate);

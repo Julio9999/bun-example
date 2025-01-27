@@ -4,11 +4,11 @@ export class StatusRepository {
         throw new Error("Method not implemented.");
     }
     async findById(id) {
-        const [status] = await dbClient `SELECT * FROM Status WHERE id=${id}`;
+        const [status] = await dbClient `SELECT * FROM "Status" WHERE id=${id}`;
         return status;
     }
     async findAll() {
-        const statuses = await dbClient `SELECT * FROM Status`;
+        const statuses = await dbClient `SELECT * FROM "Status"`;
         return statuses;
     }
 }

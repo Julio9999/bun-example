@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { BoardService } from "./boards-service";
+// import { Board } from "@prisma/client";
 import { validate } from "../../middleware/validation";
 import { CreateBoardDto } from "./dto/create-board-dto";
 const boardService = BoardService.getInstance();

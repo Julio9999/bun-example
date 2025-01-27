@@ -9,18 +9,18 @@ export class UserRepository {
     }
     async findById(id) {
         const [user] = await dbClient `
-      SELECT * FROM "User" WHERE id=${id}
+      SELECT id, email, name, "boardId"  FROM "User" WHERE id=${id}
     `;
         return user;
     }
     findAll() {
         return dbClient `
-      SELECT id, name, email FROM User 
+      SELECT id, name, email FROM "User"
     `;
     }
     async getUserByEmail(email) {
         const [user] = await dbClient `
-      SELECT id, name, email, password FROM "User"
+      SELECT id, name, email, password, "boardId" FROM "User"
       WHERE email=${email} AND disabled=${false};
     `;
         return user;
