@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { UsersService } from "./users-service";
 import { CreateUserDto, CreateUserDtoType } from "./dto/create-user-dto";
-import { validate } from '../../middleware/validation';
+import { validateJsonBody } from "../../utils/validate-json-body";
 
 const usersService = UsersService.getInstance();
 
@@ -17,8 +17,8 @@ users.get("/:id", async (c) => {
   return c.json(res);
 });
 
-users.post("/", validate(CreateUserDto), async (c) => {
-  const body: CreateUserDtoType = await c.req.json();
+users.post("/", validateJsonBody(CreateUserDto), async (c) => {
+  const body: CreateUserDtoType = c.req.valid('json');
   await usersService.create(body);
   return c.json({ message: "Usuario creado exitosamente" });
 });

@@ -11,4 +11,12 @@ export class StatusService {
         const res = await this.statusRepository.findAll();
         return res;
     };
+    findById = async (id) => {
+        const res = await this.statusRepository.findById(id);
+        return res;
+    };
+    create = async (createStatusDto) => {
+        const res = await this.statusRepository.create(createStatusDto);
+        return res;
+    };
 }

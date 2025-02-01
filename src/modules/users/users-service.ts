@@ -1,4 +1,3 @@
-import { User } from "../../entities/user/user.entity";
 import { UserRepository } from "../../infraestructure/repositories/user/user-repository";
 import { hasPassword } from "../../utils/hash-password";
 import { CreateUserDtoType } from "./dto/create-user-dto";
@@ -22,7 +21,7 @@ export class UsersService {
 
     const hashedPassword = await hasPassword(password);
 
-    const userToCreate: User = {
+    const userToCreate = {
       email,
       name,
       password: hashedPassword,

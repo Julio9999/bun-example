@@ -1,7 +1,11 @@
 import { dbClient } from "../../database/db-client";
 export class StatusRepository {
-    create(entity) {
-        throw new Error("Method not implemented.");
+    create(createStatusDto) {
+        return dbClient `
+        INSERT INTO "Status" (name)
+        VALUES (${createStatusDto.name})
+        RETURNING *
+        `;
     }
     async findById(id) {
         const [status] = await dbClient `SELECT * FROM "Status" WHERE id=${id}`;

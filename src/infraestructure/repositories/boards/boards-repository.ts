@@ -1,9 +1,10 @@
 import { Board } from "../../../entities/board/board.entity";
+import { CreateBoardDtoType } from "../../../modules/boards/dto/create-board-dto";
 import { dbClient } from "../../database/db-client";
 import { BaseRepository } from "../interfaces/base-repository";
 
 export class BoardsRepository implements BaseRepository {
-  create(data: Board) {
+  create(data: CreateBoardDtoType) {
     return dbClient`
       INSERT INTO "Board" (name)
       VALUES (${data.name})

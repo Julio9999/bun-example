@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { UsersService } from "./users-service";
 import { CreateUserDto } from "./dto/create-user-dto";
-import { validate } from '../../middleware/validation';
+import { validateJsonBody } from "../../utils/validate-json-body";
 const usersService = UsersService.getInstance();
 export const users = new Hono();
 users.get("/", async (c) => {
@@ -13,8 +13,8 @@ users.get("/:id", async (c) => {
     const res = await usersService.findById(Number(userId));
     return c.json(res);
 });
-users.post("/", validate(CreateUserDto), async (c) => {
-    const body = await c.req.json();
+users.post("/", validateJsonBody(CreateUserDto), async (c) => {
+    const body = c.req.valid('json');
     await usersService.create(body);
     return c.json({ message: "Usuario creado exitosamente" });
 });

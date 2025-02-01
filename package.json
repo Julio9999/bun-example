@@ -8,6 +8,7 @@
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
+    "@hono/zod-validator": "^0.4.2",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
     "hono": "^4.6.16",

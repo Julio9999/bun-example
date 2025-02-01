@@ -1,9 +1,8 @@
 import { Hono } from "hono";
 import { BoardService } from "./boards-service";
-// import { Board } from "@prisma/client";
-import { validate } from "../../middleware/validation";
-import { CreateBoardDto } from "./dto/create-board-dto";
+import { CreateBoardDto, CreateBoardDtoType } from "./dto/create-board-dto";
 import { Board } from "../../entities/board/board.entity";
+import { validateJsonBody } from "../../utils/validate-json-body";
 
 const boardService = BoardService.getInstance();
 
@@ -21,8 +20,8 @@ boardRoutes.get('/:id', async(c) => {
 })
 
 
-boardRoutes.post('/', validate(CreateBoardDto) ,async(c) => {
-    const body: Board = await c.req.json();
+boardRoutes.post('/', validateJsonBody(CreateBoardDto) ,async(c) => {
+    const body: CreateBoardDtoType = c.req.valid("json");
     await boardService.create(body)
     return c.json({message: "Tablero creado exitosamente"})
 })

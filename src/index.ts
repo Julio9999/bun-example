@@ -7,6 +7,7 @@ import { authRoutes } from './modules/auth/auth-routes';
 import { boardRoutes } from './modules/boards/boards-routes';
 import { errorHandler } from './middleware/error-handler';
 import { validateJsonMiddleware } from './middleware/validate-json-middleware';
+import { statusRoutes } from './modules/status/status-routes';
 
 
 const app = new Hono()
@@ -39,6 +40,8 @@ app.route('/users',users)
 app.route('/auth', authRoutes)
 
 app.route('/board', boardRoutes)
+
+app.route('/status', statusRoutes)
 
 app.onError(errorHandler)
 

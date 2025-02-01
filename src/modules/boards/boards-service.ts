@@ -1,6 +1,7 @@
 import { HTTPException } from "hono/http-exception";
 import { Board } from "../../entities/board/board.entity";
 import { BoardsRepository } from "../../infraestructure/repositories/boards/boards-repository";
+import { CreateBoardDtoType } from "./dto/create-board-dto";
 
 export class BoardService {
 
@@ -26,7 +27,7 @@ export class BoardService {
         return res;
     }
 
-    create = async(board: Board) => {
+    create = async(board: CreateBoardDtoType) => {
         const res = await this.boardsRepository.create(board);
 
         return res;

@@ -2,10 +2,10 @@ import { Hono } from "hono";
 import { deleteCookie, setCookie } from "hono/cookie";
 import { AuthService } from "./auth-service";
 import { LoginDto } from "./dto/login-dto";
-import { validate } from "../../middleware/validation";
+import { validateJsonBody } from "../../utils/validate-json-body";
 const authService = AuthService.getInstance();
 export const authRoutes = new Hono();
-authRoutes.post("/login", validate(LoginDto), async (c) => {
+authRoutes.post("/login", validateJsonBody(LoginDto), async (c) => {
     const body = await c.req.json();
     const userPayload = await authService.login(body);
     const access_token = await authService.signToken(userPayload);
