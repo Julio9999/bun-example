@@ -9,11 +9,10 @@ export const errorHandler = (err: Error | HTTPResponseError | any, c: Context<Bl
     return c.json({ message: err.message }, err.status);
   }
 
-  if(err.code == "P2002"){
-    const target = err.meta.target[0];
-    const message = `El ${target} ingresado ya está en uso`;
-    return c.json({message})
+  if(err.code == "ERR_POSTGRES_SERVER_ERROR"){
+    return c.json({message: err.detail}, 400)
   }
+
   
   return c.json({ message: 'Algo salió mal' }, 500);
 }

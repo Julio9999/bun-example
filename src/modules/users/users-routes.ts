@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { UsersService } from "./users-service";
 import { CreateUserDto, CreateUserDtoType } from "./dto/create-user-dto";
 import { validateJsonBody } from "../../utils/validate-json-body";
+import { AsignUsersToBoard, AsignUsersToBoardType } from "./dto/asign-user-to-board-dto";
 
 const usersService = UsersService.getInstance();
 
@@ -22,3 +23,9 @@ users.post("/", validateJsonBody(CreateUserDto), async (c) => {
   await usersService.create(body);
   return c.json({ message: "Usuario creado exitosamente" });
 });
+
+users.put("/asignUserToBoard", validateJsonBody(AsignUsersToBoard), async(c) => {
+  const body: AsignUsersToBoardType = c.req.valid('json');
+  await usersService.asignUserToBoard(body);
+  return c.json({message: "Usuarios asignados correctamente"});
+})

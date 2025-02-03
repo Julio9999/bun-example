@@ -1,5 +1,6 @@
 import { UserRepository } from "../../infraestructure/repositories/user/user-repository";
 import { hasPassword } from "../../utils/hash-password";
+import { AsignUsersToBoardType } from "./dto/asign-user-to-board-dto";
 import { CreateUserDtoType } from "./dto/create-user-dto";
 import { HTTPException } from "hono/http-exception";
 
@@ -40,6 +41,12 @@ export class UsersService {
     const res = await this.userRepository.findById(id);
     if (!res)
       throw new HTTPException(404, { message: "Usuario no encontrado" });
+    return res;
+  }
+
+  async asignUserToBoard(asignUsersToBoard: AsignUsersToBoardType){
+    const res = await this.userRepository.setUserToBoard(asignUsersToBoard);
+    console.log(res)
     return res;
   }
 }

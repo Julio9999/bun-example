@@ -4,7 +4,7 @@ let dbClient: SQL;
 
 const createDBClient = () => {
   return new SQL({
-    url: "postgres://user:pass@localhost:5432/dbname",
+    url: "postgres://user:pass@localhost:5432",
     host: "localhost",
     port: 5432,
     database: "tasks",
