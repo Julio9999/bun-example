@@ -1,7 +1,6 @@
 import { Hono } from "hono";
 import { BoardService } from "./boards-service";
 import { CreateBoardDto, CreateBoardDtoType } from "./dto/create-board-dto";
-import { Board } from "../../entities/board/board.entity";
 import { validateJsonBody } from "../../utils/validate-json-body";
 
 const boardService = BoardService.getInstance();
