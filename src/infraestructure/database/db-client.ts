@@ -4,8 +4,8 @@ let dbClient: SQL;
 
 const createDBClient = () => {
   return new SQL({
-    url: "postgres://user:pass@localhost:5432/dbname",
-    host: "localhost",
+    url: "postgresql://postgres:postgres@host.docker.internal:5432/tasks?schema=public",
+    host: "host.docker.internal",
     port: 5432,
     database: "tasks",
     username: "postgres",

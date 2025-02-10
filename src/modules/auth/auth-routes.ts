@@ -21,6 +21,7 @@ authRoutes.post("/login", validateJsonBody(LoginDto), async (c) => {
   setCookie(c, "access_token", access_token, {
     secure: true,
     httpOnly: true,
+    sameSite: "None"
   });
 
   return c.json({ message: "Sesión iniciada correctamente" });

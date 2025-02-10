@@ -8,9 +8,15 @@ import { boardRoutes } from './modules/boards/boards-routes';
 import { errorHandler } from './middleware/error-handler';
 import { validateJsonMiddleware } from './middleware/validate-json-middleware';
 import { statusRoutes } from './modules/status/status-routes';
+import { cors } from 'hono/cors'
 
 
 const app = new Hono()
+
+app.use('*', cors({
+  origin: 'http://localhost:3001',
+  credentials: true
+}))
 
 app.use('*', authMiddleware);
 
