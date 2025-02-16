@@ -4,12 +4,12 @@ let dbClient: SQL;
 
 const createDBClient = () => {
   return new SQL({
-    url: "postgres://user:pass@localhost:5432",
-    host: "localhost",
-    port: 5432,
-    database: "tasks",
-    username: "postgres",
-    password: "postgres",
+    url: process.env.DATABASE_ULR!,
+    database: process.env.DB_NAME!,
+    host: process.env.HOST!,
+    port: process.env.DB_PORT!,
+    password: process.env.PASSWORD!,
+    username: process.env.USER!,
     max: 1,
     idleTimeout: 30,
     maxLifetime: 0,
